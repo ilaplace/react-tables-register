@@ -7,6 +7,8 @@ const rawData = makeData();
 
 const requestData = (pageSize, page, sorted, filtered) => {
     return new Promise((resolve, reject) => {
+      
+      // To Do: 
       // You can retrieve your data however you want, in this case, we will just use some local data.
       let filteredData = rawData;
   
@@ -41,7 +43,8 @@ const requestData = (pageSize, page, sorted, filtered) => {
       };
   
       // simulate a server response with 500ms of delay.
-      setTimeout(() => resolve(res), 500);
+      //setTimeout(() => resolve(res), 500);
+      resolve(res);
     });
   };
   
@@ -80,20 +83,49 @@ export default class Table extends Component {
         return (
           <div>
             <ReactTable
+            //  React tables requires Columns prop, which is an array of objects containing the following properties
+            // Accessor: eg. (row) => row.propertyName 
+            // Id: A unique ID is required if the accessor is not a string or if you would like to override the column name used in server-side calls
+            
               columns={[
                 {
-                  Header: "First Name",
-                  accessor: "firstName"
+                  Header: "Açılış Tarihi",
+                  accessor: "acilisTarihi"
                 },
                 {
-                  Header: "Last Name",
-                  id: "lastName",
-                  accessor: d => d.lastName
+                  Header: "Konu Özeti",
+                  id: "konuOzeti",
+                  accessor: d => d.konuOzeti
                 },
                 {
-                  Header: "Age",
-                  accessor: "age"
+                  Header: "Durumu",
+                  accessor: "durumu"
+                },
+                {
+                  Header: "Destek Grubu",
+                  accessor: "destekGrubu"
+                },
+                {
+                  Header: "Atanan Kullanıcı",
+                  accesor: "atananKullanici"
+                },
+                {
+                  Header: "Servis",
+                  accessor: "servis"
+                },
+                {
+                  Header: "Takip Eden",
+                  accessor: "takipeden"
+                },
+                {
+                  Header: "Çözüm Bilgisi",
+                  accessor: "cozumTarihi"
+                },
+                {
+                  Header: "Çözüm Tarihi",
+                  accessor: "cozumTarihi"
                 }
+
               ]}
               manual // Forces table not to paginate or sort automatically, so we can handle it server-side
               data={data}
