@@ -5,6 +5,7 @@ import VakaTable from './components/VakaTable'
 import IstemTable from './components/IstemTable'
 import VarlikTable from './components/VarlikTable'
 
+
 export default class App extends Component {
   render() {
     

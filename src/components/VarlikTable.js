@@ -3,6 +3,12 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import { makeData } from "./utils";
 import _ from "lodash";
+import ReactExport from "react-export-excel"
+
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+
 const rawData = makeData();
 
 const requestData = (pageSize, page, sorted, filtered) => {
@@ -80,44 +86,54 @@ export default class Table extends Component {
 
     render() {
         const { data, pages, loading } = this.state;
+      const columns = [
+        {
+          Header: "CI Adı",
+          accessor: "ciAdi"
+        },
+        {
+          Header: "Demirbaş No",
+          id: "demirbasNo",
+          accessor: d => d.demirbasNo
+        },
+        {
+          Header: "Kullanıcı",
+          accessor: "kullanici"
+        },
+        {
+          Header: "Durumu",
+          accessor: "durumu"
+        },
+        {
+          Header: "Ürün Kategorisi",
+          accesor: "urunKategorisi"
+        },
+        {
+          Header: "Organizasyon",
+          accessor: "organizasyon"
+        },
+        {
+          Header: "Tanımlanma Tarihi",
+          accessor: "tanımlanmaTarihi"
+        }
+      ]
+        
         return (
           <div>
+            <ExcelFile element={<button>İndir</button>}>
+                <ExcelSheet data={data} name="Employees">
+                  {columns.map((value,index) => {
+                    return <ExcelColumn label={value.Header} value={value.accessor} key={index}/>
+                  })}
+                </ExcelSheet>
+            </ExcelFile>
+            <br />
             <ReactTable
             //  React tables requires Columns prop, which is an array of objects containing the following properties
             // Accessor: eg. (row) => row.propertyName, Needs to be consistent with the Database used
             // Id: A unique ID is required if the accessor is not a string or if you would like to override the column name used in server-side calls
 
-              columns={[
-                {
-                  Header: "CI Adı",
-                  accessor: "ciAdi"
-                },
-                {
-                  Header: "Demirbaş No",
-                  id: "demirbasNo",
-                  accessor: d => d.demirbasNo
-                },
-                {
-                  Header: "Kullanıcı",
-                  accessor: "kullanici"
-                },
-                {
-                  Header: "Durumu",
-                  accessor: "durumu"
-                },
-                {
-                  Header: "Ürün Kategorisi",
-                  accesor: "urunKategorisi"
-                },
-                {
-                  Header: "Organizasyon",
-                  accessor: "organizasyon"
-                },
-                {
-                  Header: "Tanımlanma Tarihi",
-                  accessor: "tanımlanmaTarihi"
-                }
-              ]}
+              columns={columns}
               manual // Forces table not to paginate or sort automatically, so we can handle it server-side
               data={data}
               pages={pages} // Display the total number of pages

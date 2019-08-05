@@ -3,7 +3,12 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import { makeData } from "./utils";
 import _ from "lodash";
+import ReactExport from "react-export-excel"
 const rawData = makeData();
+
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
 const requestData = (pageSize, page, sorted, filtered) => {
     return new Promise((resolve, reject) => {
@@ -76,25 +81,37 @@ export default class Table extends Component {
       }
 
     render() {
-        const { data, pages, loading } = this.state;
+        const { data, pages, loading } = this.state;      
+        const columns = [
+          {
+            Header: "First Name",
+            accessor: "firstName"
+          },
+          {
+            Header: "Last Name",
+            id: "lastName",
+            accessor: d => d.lastName
+          },
+          {
+            Header: "Age",
+            accessor: "age"
+          }
+        ]
         return (
           <div>
+             <ExcelFile element={<button>İndir</button>}>
+                <ExcelSheet data={data} name="Employees">
+                  {columns.map((value,index) => {
+                    return <ExcelColumn label={value.Header} value={value.accessor} key={index}/>
+                  })}
+                    {/* <ExcelColumn label="First Name" value="firstName"/>
+                    <ExcelColumn label="Last Name" value="lastName"/>
+                    <ExcelColumn label="Age" value="age"/> */}
+                </ExcelSheet>
+            </ExcelFile>
+            <br />
             <ReactTable
-              columns={[
-                {
-                  Header: "First Name",
-                  accessor: "firstName"
-                },
-                {
-                  Header: "Last Name",
-                  id: "lastName",
-                  accessor: d => d.lastName
-                },
-                {
-                  Header: "Age",
-                  accessor: "age"
-                }
-              ]}
+              columns={columns}
               manual // Forces table not to paginate or sort automatically, so we can handle it server-side
               data={data}
               pages={pages} // Display the total number of pages
