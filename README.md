@@ -1,4 +1,6 @@
-*First run `npm install `  to resolve dependencies * 
+Simple reporting app that views the logs and to generate excel file.
+
+Run `npm install `  to resolve dependencies 
 
 `npm start`  Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
