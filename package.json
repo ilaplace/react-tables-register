@@ -11,7 +11,7 @@
     "react-scripts": "3.0.1",
     "react-table": "^6.10.0",
     "react-tabs": "^3.0.0",
-    "xlsx": "^0.15.0"
+    "xlsx": "^0.17.0"
   },
   "scripts": {
     "start": "react-scripts start",
